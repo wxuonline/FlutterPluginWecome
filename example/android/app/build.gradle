@@ -47,6 +47,25 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    signingConfigs{
+        debug {
+            keyAlias 'hengan'
+            keyPassword 'dataportal'
+            storeFile file('keystore/keystore.jks')
+            storePassword 'dataportal'
+        }
+        release {
+            keyAlias 'hengan'
+            keyPassword 'dataportal'
+            storeFile file('keystore/keystore.jks')
+            storePassword 'dataportal'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
 
 flutter {

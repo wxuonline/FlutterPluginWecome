@@ -23,15 +23,6 @@ class FlutterWecome {
     return result;
   }
 
-  static Future<int> calculate (int a, int b) async {
-    final String result = await _channel.invokeMethod('calculate', {
-      'a': a,
-      'b': b
-    });
-    return int.parse(result);
-  }
-
-
   /// Check if Wecome app has was installed.
   static Future<dynamic> isWecomeInstalled() async {
     var result = await _channel.invokeMethod(
@@ -100,23 +91,4 @@ class FlutterWecome {
     return result;
   }
 
-  /// Pay
-  /// arguments object structure:
-  /// ```
-  /// {
-  ///   "partnerId": "partnerId",
-  ///   "prepayId": "prepayId",
-  ///   "package": "package",
-  ///   "nonceStr": "nonceStr",
-  ///   "timestamp": "timestamp",
-  ///   "sign": "sign"
-  /// }
-  /// ```
-  static Future<dynamic> pay(Map<String, String> arguments) async {
-    var result = await _channel.invokeMethod(
-        'pay',
-        arguments
-    );
-    return result;
-  }
 }
