@@ -31,3 +31,7 @@ android {
         disable 'InvalidPackage'
     }
 }
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}

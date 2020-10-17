@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
-    FlutterWecome.register('APPID');
+    FlutterWecome.register("APPID");
     _result = 'no result';
     print('inited');
   }
