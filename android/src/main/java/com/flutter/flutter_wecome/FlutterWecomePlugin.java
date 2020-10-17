@@ -58,39 +58,21 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     private Bitmap bitmap;
     //    private WXMediaMessage message;
     private String kind = "session";
-//    private final PluginRegistry.Registrar registrar;
+    //    private final PluginRegistry.Registrar registrar;
     private BroadcastReceiver sendRespReceiver;
 
 
-
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
     private MethodChannel channel;
 
-//    private FlutterWecomePlugin(Context ctx, Registrar registrar) {
-////        this.registrar = registrar;
-////        context = ctx;
-//    }
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-        channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "wecome");
+        channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_wecome");
         channel.setMethodCallHandler(this);
     }
 
-    // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-    // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-    // plugin registration via this function while apps migrate to use the new Android APIs
-    // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-    //
-    // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-    // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-    // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-    // in the same class.
     public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "wecome");
+        final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_wecome");
 //        channel.setMethodCallHandler(new FlutterWecomePlugin());
 //        channel.setMethodCallHandler(new FlutterWecomePlugin(registrar.context(), registrar));
         channel.setMethodCallHandler(new FlutterWecomePlugin());
@@ -103,14 +85,49 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getPlatformVersion")) {
-            Log.d("TAG", "getPlatformVersion");
+            Log.d("wecomeLog", "getPlatformVersion");
+            Toast.makeText(context, APPID, Toast.LENGTH_SHORT).show();
             result.success("Android " + android.os.Build.VERSION.RELEASE);
         } else if (call.method.equals("register")) {
             // appid = call.argument("appid");
-             Toast.makeText(context, APPID, Toast.LENGTH_SHORT).show();
+             Toast.makeText(context, "register", Toast.LENGTH_SHORT).show();
             api = WWAPIFactory.createWWAPI(context);
             result.success(api.registerApp(APPID));
-
+        } else if (call.method.equals("isWecomeInstalled")) {
+            Toast.makeText(context, "Check", Toast.LENGTH_SHORT).show();
+        // Check if wecome app installed
+            if (api == null) {
+                result.success(false);
+            } else {
+                result.success(api.isWWAppInstalled());
+            }
+        } else if (call.method.equals("getApiVersion")) {
+            result.success(api.isWWAppSupportAPI());
+        } else if (call.method.equals("openWecome")) {
+            Toast.makeText(context, "openwecome", Toast.LENGTH_SHORT).show();
+            result.success(api.openWWApp());
+        } else if (call.method.equals("login")) {
+            final WWAuthMessage.Req req = new WWAuthMessage.Req();
+            req.sch = SCHEMA;
+            req.appId = APPID;
+            req.agentId = AGENTID;
+            req.state = STATE;
+            api.sendMessage(req, new IWWAPIEventHandler() {
+                @Override
+                public void handleResp(BaseMessage resp) {
+                    if (resp instanceof WWAuthMessage.Resp) {
+                        WWAuthMessage.Resp rsp = (WWAuthMessage.Resp) resp;
+                        if (rsp.errCode == WWAuthMessage.ERR_CANCEL) {
+                            Toast.makeText(context, "登录取消", Toast.LENGTH_SHORT).show();
+                        }else if (rsp.errCode == WWAuthMessage.ERR_FAIL) {
+                            Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
+                        } else if (rsp.errCode == WWAuthMessage.ERR_OK) {
+                            Toast.makeText(context, "登录成功：" + rsp.code,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
         } else {
             result.notImplemented();
         }

@@ -25,9 +25,11 @@ class FlutterWecome {
 
   /// Check if Wecome app has was installed.
   static Future<dynamic> isWecomeInstalled() async {
+    print(111222);
     var result = await _channel.invokeMethod(
         'isWecomeInstalled'
     );
+    print(111222333);
     return result == 'true' ? true : false;
   }
 
@@ -61,17 +63,17 @@ class FlutterWecome {
   /// ```
   ///
   /// when kind is `music` or `video`, the `resourceUrl` means the data url of the mucis or video
-  static Future<dynamic> share(Map<String, dynamic> arguments) async {
-    arguments['kind'] = arguments['kind'] ?? 'text';
-    arguments['to'] = arguments['to'] ?? 'session';
-
-    var result = await _channel.invokeMethod(
-        'share',
-        arguments
-    );
-
-    return result;
-  }
+  // static Future<dynamic> share(Map<String, dynamic> arguments) async {
+  //   arguments['kind'] = arguments['kind'] ?? 'text';
+  //   arguments['to'] = arguments['to'] ?? 'session';
+  //
+  //   var result = await _channel.invokeMethod(
+  //       'share',
+  //       arguments
+  //   );
+  //
+  //   return result;
+  // }
 
   /// Login
   /// arguments object structure:

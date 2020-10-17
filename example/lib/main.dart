@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_wecome/flutter_wecome.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 void main() => runApp(MyApp());
@@ -44,56 +45,62 @@ class _MyAppState extends State<MyApp> {
       _platformVersion = platformVersion;
     });
   }
+  //
+  // void _share (arguments) async {
+  //   try {
+  //     var result = await FlutterWecome.share(arguments);
+  //     _result = result.toString() ?? 'null result';
+  //   } catch (e) {
+  //     _result = e.toString();
+  //   }
+  // }
+  //
+  // void _shareText ([String to = 'session']) async {
+  //   var arguments = {
+  //     'to': to,
+  //     'text': 'Welcome to user flutter wecome plugin.'
+  //   };
+  //   await _share(arguments);
+  // }
   
-  void _share (arguments) async {
-    try {
-      var result = await FlutterWecome.share(arguments);
-      _result = result.toString() ?? 'null result';
-    } catch (e) {
-      _result = e.toString();
-    }
-  }
-  
-  void _shareText ([String to = 'session']) async {
-    var arguments = {
-      'to': to,
-      'text': 'Welcome to user flutter wecome plugin.'
-    };
-    await _share(arguments);
-  }
-  
-  void _shareImage ([String to = 'session']) async {
-    _share({
-      'kind': 'image',
-      'to': to,
-      'resourceUrl': 'https://files.onmr.com/wild/2018/09/3177628278.jpg',
-      'url': 'https://wild.onmr.com/trails',
-      'title': '荒僧',
-      'description': '大丈夫当朝游碧海而暮苍梧'
-    });
-  }
-  
-  void _shareMusic ([String to = 'session']) async {
-    _share({
-      'kind': 'music',
-      'to': to,
-      'resourceUrl': 'https://pantao.onmr.com/usr/uploads/2018/12/2839345471.mp3',
-      'url': 'https://pantao.onmr.com/demo-files',
-      'coverUrl': 'https://pantao.onmr.com/usr/uploads/2018/12/2293691504.jpg',
-      'title': 'Jingle Bells',
-      'description': 'Children\'s Christmas Favorites-Jingle Bells (Album Version)'
-    });
-  }
-  
-  void _shareWebpage ([String to = 'session']) async {
-    _share({
-      'kind': 'webpage',
-      'to': to,
-      'url': 'https://pantao.onmr.com/demo-files',
-      'coverUrl': 'https://pantao.onmr.com/usr/uploads/2018/12/2293691504.jpg',
-      'title': 'Jingle Bells',
-      'description': 'Children\'s Christmas Favorites-Jingle Bells (Album Version)'
-    });
+  // void _shareImage ([String to = 'session']) async {
+  //   _share({
+  //     'kind': 'image',
+  //     'to': to,
+  //     'resourceUrl': 'https://files.onmr.com/wild/2018/09/3177628278.jpg',
+  //     'url': 'https://wild.onmr.com/trails',
+  //     'title': '荒僧',
+  //     'description': '大丈夫当朝游碧海而暮苍梧'
+  //   });
+  // }
+  //
+  // void _shareMusic ([String to = 'session']) async {
+  //   _share({
+  //     'kind': 'music',
+  //     'to': to,
+  //     'resourceUrl': 'https://pantao.onmr.com/usr/uploads/2018/12/2839345471.mp3',
+  //     'url': 'https://pantao.onmr.com/demo-files',
+  //     'coverUrl': 'https://pantao.onmr.com/usr/uploads/2018/12/2293691504.jpg',
+  //     'title': 'Jingle Bells',
+  //     'description': 'Children\'s Christmas Favorites-Jingle Bells (Album Version)'
+  //   });
+  // }
+  //
+  // void _shareWebpage ([String to = 'session']) async {
+  //   _share({
+  //     'kind': 'webpage',
+  //     'to': to,
+  //     'url': 'https://pantao.onmr.com/demo-files',
+  //     'coverUrl': 'https://pantao.onmr.com/usr/uploads/2018/12/2293691504.jpg',
+  //     'title': 'Jingle Bells',
+  //     'description': 'Children\'s Christmas Favorites-Jingle Bells (Album Version)'
+  //   });
+  // }
+  void _checkInstalled () async {
+    print(111111);
+      var result = await FlutterWecome.isWecomeInstalled();
+    print("22222");
+      print(result);
   }
   
   void _login () async {
@@ -122,40 +129,47 @@ class _MyAppState extends State<MyApp> {
               title: Text('Running on: $_platformVersion\n'),
             ),
             ListTile(
-              leading: Icon(Icons.text_format),
-              title: Text('Share text to wecome'),
+              leading: Icon(Icons.build),
+              title: Text('检测是否安装企业微信'),
               onTap: () {
-                _shareText();
+                _checkInstalled();
               },
             ),
-            ListTile(
-              leading: Icon(Icons.text_format),
-              title: Text('Share text to wecome timeline'),
-              onTap: () {
-                _shareText('timeline');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Share image to wecome'),
-              onTap: () {
-                _shareImage();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.music_note),
-              title: Text('Share music to wecome'),
-              onTap: () {
-                _shareMusic();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.web),
-              title: Text('Share webpage to wecome'),
-              onTap: () {
-                _shareWebpage();
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.text_format),
+            //   title: Text('Share text to wecome'),
+            //   onTap: () {
+            //     _shareText();
+            //   },
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.text_format),
+            //   title: Text('Share text to wecome timeline'),
+            //   onTap: () {
+            //     _shareText('timeline');
+            //   },
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.image),
+            //   title: Text('Share image to wecome'),
+            //   onTap: () {
+            //     _shareImage();
+            //   },
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.music_note),
+            //   title: Text('Share music to wecome'),
+            //   onTap: () {
+            //     _shareMusic();
+            //   },
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.web),
+            //   title: Text('Share webpage to wecome'),
+            //   onTap: () {
+            //     _shareWebpage();
+            //   },
+            // ),
             ListTile(
               leading: Icon(Icons.person),
               title: Text('Login via wecome'),
