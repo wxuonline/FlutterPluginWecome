@@ -120,16 +120,20 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
             Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
             final WWAuthMessage.Req req = new WWAuthMessage.Req();
             final String state = call.argument("state").toString();
-            Toast.makeText(context, schema+state, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, schema+","+appid+","+agentid+","+state, Toast.LENGTH_SHORT).show();
             req.sch = schema;
             req.appId = appid;
             req.agentId = agentid;
             req.state = state;
+            Toast.makeText(context, "222", Toast.LENGTH_SHORT).show();
             api.sendMessage(req, new IWWAPIEventHandler() {
                 @Override
                 public void handleResp(BaseMessage resp) {
+                    Toast.makeText(context, "222", Toast.LENGTH_SHORT).show();
                     if (resp instanceof WWAuthMessage.Resp) {
+                        Toast.makeText(context, "333", Toast.LENGTH_SHORT).show();
                         WWAuthMessage.Resp rsp = (WWAuthMessage.Resp) resp;
+                        Toast.makeText(context, "444："+rsp.errCode, Toast.LENGTH_SHORT).show();
                         if (rsp.errCode == WWAuthMessage.ERR_CANCEL) {
                             result.success("登录取消");
                             Toast.makeText(context, "登录取消", Toast.LENGTH_SHORT).show();
