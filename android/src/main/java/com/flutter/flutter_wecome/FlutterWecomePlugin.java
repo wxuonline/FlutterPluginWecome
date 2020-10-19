@@ -123,11 +123,11 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
             req.appId = appid;
             req.agentId = agentid;
             req.state = state;
-            Toast.makeText(context, schema+","+appid+","+agentid+","+state, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, schema+","+appid+","+agentid, Toast.LENGTH_SHORT).show();
             api.sendMessage(req, new IWWAPIEventHandler() {
                 @Override
                 public void handleResp(BaseMessage resp) {
-                    Log.d("com.hengan.dataportal", resp.getType()+"x");
+                    Log.e("com.hengan.dataportal", "222");
                     Toast.makeText(context, "222:"+resp.getType(), Toast.LENGTH_SHORT).show();
 
                     if (resp instanceof WWAuthMessage.Resp) {
