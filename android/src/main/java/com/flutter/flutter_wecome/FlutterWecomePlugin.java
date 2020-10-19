@@ -144,6 +144,8 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
                             result.success(rsp.code);
                             Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(context, resp.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
