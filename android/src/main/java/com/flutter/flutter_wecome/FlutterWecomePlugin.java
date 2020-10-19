@@ -127,7 +127,9 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
             api.sendMessage(req, new IWWAPIEventHandler() {
                 @Override
                 public void handleResp(BaseMessage resp) {
-                    Toast.makeText(context, "222: " + resp.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("com.hengan.dataportal", resp.getType()+"x");
+                    Toast.makeText(context, "222:"+resp.getType(), Toast.LENGTH_SHORT).show();
+
                     if (resp instanceof WWAuthMessage.Resp) {
                         Toast.makeText(context, "333", Toast.LENGTH_SHORT).show();
                         WWAuthMessage.Resp rsp = (WWAuthMessage.Resp) resp;
