@@ -31,6 +31,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -60,23 +61,34 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     //    private final PluginRegistry.Registrar registrar;
     //    private BroadcastReceiver sendRespReceiver;
 
+    @SuppressWarnings("deprecation")
+    public static void registerWith(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
+        final FlutterWecomePlugin plugin = new FlutterWecomePlugin();
+        plugin.setupChannel(registrar.messenger(), registrar.context());
+    }
 
     @Override
-    public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-        channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_wecome");
+    public void onAttachedToEngine(FlutterPlugin.FlutterPluginBinding binding) {
+        setupChannel(binding.getBinaryMessenger(), binding.getApplicationContext());
+    }
+
+    private void setupChannel(BinaryMessenger messenger, Context context) {
+        channel = new MethodChannel(messenger, "flutter_wecome");
         channel.setMethodCallHandler(this);
     }
 
-    public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_wecome");
+//    @Override
+//    public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+////        channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_wecome");
+//        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_wecome");
+//        channel.setMethodCallHandler(this);
+//    }
+//
+//    public static void registerWith(Registrar registrar) {
+//        final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_wecome");
+////        channel.setMethodCallHandler(new FlutterWecomePlugin(registrar.context(), registrar));
 //        channel.setMethodCallHandler(new FlutterWecomePlugin());
-//        channel.setMethodCallHandler(new FlutterWecomePlugin(registrar.context(), registrar));
-        channel.setMethodCallHandler(new FlutterWecomePlugin());
-
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("sendResp");
-//        registrar.context().registerReceiver(createReceiver(), intentFilter);
-    }
+//    }
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull final Result result) {
@@ -137,26 +149,8 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);
+        channel = null;
     }
-
-//    private static BroadcastReceiver createReceiver() {
-//        return new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                System.out.println(intent.getStringExtra("type"));
-//                if (intent.getStringExtra("type").equals("SendAuthResp")) {
-//                    result.success(intent.getStringExtra("code"));
-//                }
-//                else if (intent.getStringExtra("type").equals("PayResp")) {
-//                    result.success(intent.getStringExtra("code"));
-//                }
-//                else if (intent.getStringExtra("type").equals("ShareResp")) {
-//                    System.out.println(intent.getStringExtra("code"));
-//                    result.success(intent.getStringExtra("code"));
-//                }
-//            }
-//        };
-//    }
 
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
