@@ -117,19 +117,17 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
 //            Toast.makeText(context, "openwecome", Toast.LENGTH_SHORT).show();
             result.success(api.openWWApp());
         } else if (call.method.equals("login")) {
-            Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
             final WWAuthMessage.Req req = new WWAuthMessage.Req();
             final String state = call.argument("state").toString();
-            Toast.makeText(context, schema+","+appid+","+agentid+","+state, Toast.LENGTH_SHORT).show();
             req.sch = schema;
             req.appId = appid;
             req.agentId = agentid;
             req.state = state;
-            Toast.makeText(context, "222", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, schema+","+appid+","+agentid+","+state, Toast.LENGTH_SHORT).show();
             api.sendMessage(req, new IWWAPIEventHandler() {
                 @Override
                 public void handleResp(BaseMessage resp) {
-                    Toast.makeText(context, "222", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "222: " + resp.toString(), Toast.LENGTH_SHORT).show();
                     if (resp instanceof WWAuthMessage.Resp) {
                         Toast.makeText(context, "333", Toast.LENGTH_SHORT).show();
                         WWAuthMessage.Resp rsp = (WWAuthMessage.Resp) resp;
@@ -144,8 +142,6 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
                             result.success(rsp.code);
                             Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(context, resp.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
