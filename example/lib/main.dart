@@ -16,12 +16,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _result = 'no result';
+
+  final String APPID = "wxbaaa22057237762a";
+  final String AGENTID = "1000091";
+  final String SCHEMA = "wwauthbaaa22057237762a000091";
+  final String WWSTATE = "hengan";
   
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    FlutterWecome.register("APPID");
+    FlutterWecome.register(APPID, SCHEMA, AGENTID);
     _result = 'no result';
     print('inited');
   }
@@ -97,16 +102,13 @@ class _MyAppState extends State<MyApp> {
   //   });
   // }
   void _checkInstalled () async {
-    print(111111);
       var result = await FlutterWecome.isWecomeInstalled();
-    print("22222");
       print(result);
   }
   
   void _login () async {
     var result = await FlutterWecome.login({
-      'scope': 'snsapi_userinfo',
-      'state': 'customstate'
+      'state': WWSTATE,
     });
     _result = result.toString();
   }

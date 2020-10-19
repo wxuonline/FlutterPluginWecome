@@ -42,27 +42,25 @@ import io.flutter.plugin.common.EventChannel.StreamHandler;
 
 /** FlutterWecomePlugin */
 public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
-//    private static Registrar _registrar;
 
     private static IWWAPI api;
-    private static String APPID = "wxbaaa22057237762a";
-    private static String AGENTID = "1000091";
-    private static String SCHEMA = "wwauthbaaa22057237762a000091";
-    private static String STATE = "hengan";
+    private String appid;
+    private String agentid;
+    private String schema;
 
-    private static int code;//返回错误吗
-    private static String loginCode;//获取access_code
-    private static Result result;
     private Context context;
-    //    private String appid;
-    private Bitmap bitmap;
-    //    private WXMediaMessage message;
-    private String kind = "session";
-    //    private final PluginRegistry.Registrar registrar;
-    private BroadcastReceiver sendRespReceiver;
-
-
     private MethodChannel channel;
+
+    //    private static int code;//返回错误吗
+    //    private static String loginCode;//获取access_code
+    //    private static Result result;
+    //    private Bitmap bitmap;
+    //    private WXMediaMessage message;
+    //    private String kind = "session";
+    //    private final PluginRegistry.Registrar registrar;
+    //    private BroadcastReceiver sendRespReceiver;
+
+
 
 
     @Override
@@ -86,16 +84,18 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getPlatformVersion")) {
             Log.d("wecomeLog", "getPlatformVersion");
-            Toast.makeText(context, APPID, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, appid, Toast.LENGTH_SHORT).show();
             result.success("Android " + android.os.Build.VERSION.RELEASE);
         } else if (call.method.equals("register")) {
-            // appid = call.argument("appid");
-             Toast.makeText(context, "register", Toast.LENGTH_SHORT).show();
+            appid = call.argument("appid");
+            schema = call.argument("schema");
+            agentid = call.argument("agentid");
+            Toast.makeText(context, "register"+schema, Toast.LENGTH_SHORT).show();
             api = WWAPIFactory.createWWAPI(context);
-            result.success(api.registerApp(APPID));
+            result.success(api.registerApp(schema));
         } else if (call.method.equals("isWecomeInstalled")) {
             Toast.makeText(context, "Check", Toast.LENGTH_SHORT).show();
-        // Check if wecome app installed
+            // Check if wecome app installed
             if (api == null) {
                 result.success(false);
             } else {
@@ -108,10 +108,11 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
             result.success(api.openWWApp());
         } else if (call.method.equals("login")) {
             final WWAuthMessage.Req req = new WWAuthMessage.Req();
-            req.sch = SCHEMA;
-            req.appId = APPID;
-            req.agentId = AGENTID;
-            req.state = STATE;
+            final String state = call.argument("state").toString();
+            req.sch = schema;
+            req.appId = appid;
+            req.agentId = agentid;
+            req.state = state;
             api.sendMessage(req, new IWWAPIEventHandler() {
                 @Override
                 public void handleResp(BaseMessage resp) {
@@ -122,8 +123,7 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
                         }else if (rsp.errCode == WWAuthMessage.ERR_FAIL) {
                             Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
                         } else if (rsp.errCode == WWAuthMessage.ERR_OK) {
-                            Toast.makeText(context, "登录成功：" + rsp.code,
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "登录成功：" + rsp.code, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

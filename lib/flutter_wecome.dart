@@ -12,12 +12,14 @@ class FlutterWecome {
     return version;
   }
 
-  /// Register app to Wecome with [appid]
-  static Future<dynamic> register(String appid) async {
+  /// Register app to Wecome with [appid, schema, agentid]
+  static Future<dynamic> register(String appid, String schema, String agentid) async {
     var result = await _channel.invokeMethod(
         'register',
         {
-          'appid': appid
+          'appid': appid,
+          'schema': schema,
+          'agentid': agentid,
         }
     );
     return result;
@@ -25,11 +27,9 @@ class FlutterWecome {
 
   /// Check if Wecome app has was installed.
   static Future<dynamic> isWecomeInstalled() async {
-    print(111222);
     var result = await _channel.invokeMethod(
         'isWecomeInstalled'
     );
-    print(111222333);
     return result == 'true' ? true : false;
   }
 
@@ -79,13 +79,10 @@ class FlutterWecome {
   /// arguments object structure:
   /// ```
   /// {
-  ///   "scope": "snsapi_userinfo",
   ///   "state": "customestate"
   /// }
   /// ```
   static Future<dynamic> login(Map<String, String> arguments) async {
-    arguments['scope'] = arguments['scope'] ?? 'snsapi_userinfo';
-
     var result = await _channel.invokeMethod(
         'login',
         arguments
