@@ -117,8 +117,10 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
 //            Toast.makeText(context, "openwecome", Toast.LENGTH_SHORT).show();
             result.success(api.openWWApp());
         } else if (call.method.equals("login")) {
+            Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
             final WWAuthMessage.Req req = new WWAuthMessage.Req();
             final String state = call.argument("state").toString();
+            Toast.makeText(context, schema+state, Toast.LENGTH_SHORT).show();
             req.sch = schema;
             req.appId = appid;
             req.agentId = agentid;
