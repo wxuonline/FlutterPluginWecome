@@ -84,17 +84,17 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getPlatformVersion")) {
             Log.d("wecomeLog", "getPlatformVersion");
-            Toast.makeText(context, appid, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, appid, Toast.LENGTH_SHORT).show();
             result.success("Android " + android.os.Build.VERSION.RELEASE);
         } else if (call.method.equals("register")) {
             appid = call.argument("appid");
             schema = call.argument("schema");
             agentid = call.argument("agentid");
-            Toast.makeText(context, "register"+schema, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "register"+schema, Toast.LENGTH_SHORT).show();
             api = WWAPIFactory.createWWAPI(context);
             result.success(api.registerApp(schema));
         } else if (call.method.equals("isWecomeInstalled")) {
-            Toast.makeText(context, "Check", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Check", Toast.LENGTH_SHORT).show();
             // Check if wecome app installed
             if (api == null) {
                 result.success(false);
@@ -104,7 +104,7 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
         } else if (call.method.equals("getApiVersion")) {
             result.success(api.isWWAppSupportAPI());
         } else if (call.method.equals("openWecome")) {
-            Toast.makeText(context, "openwecome", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "openwecome", Toast.LENGTH_SHORT).show();
             result.success(api.openWWApp());
         } else if (call.method.equals("login")) {
             final WWAuthMessage.Req req = new WWAuthMessage.Req();
@@ -119,11 +119,14 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
                     if (resp instanceof WWAuthMessage.Resp) {
                         WWAuthMessage.Resp rsp = (WWAuthMessage.Resp) resp;
                         if (rsp.errCode == WWAuthMessage.ERR_CANCEL) {
+                            result.success("登录取消");
                             Toast.makeText(context, "登录取消", Toast.LENGTH_SHORT).show();
                         }else if (rsp.errCode == WWAuthMessage.ERR_FAIL) {
+                            result.success("登录失败");
                             Toast.makeText(context, "登录失败", Toast.LENGTH_SHORT).show();
                         } else if (rsp.errCode == WWAuthMessage.ERR_OK) {
-                            Toast.makeText(context, "登录成功：" + rsp.code, Toast.LENGTH_SHORT).show();
+                            result.success(rsp.code);
+                            Toast.makeText(context, "登录成功：", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
