@@ -61,8 +61,6 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     //    private BroadcastReceiver sendRespReceiver;
 
 
-
-
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_wecome");
@@ -81,7 +79,7 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
     }
 
     @Override
-    public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+    public void onMethodCall(@NonNull MethodCall call, @NonNull final Result result) {
         if (call.method.equals("getPlatformVersion")) {
             Log.d("wecomeLog", "getPlatformVersion");
 //            Toast.makeText(context, appid, Toast.LENGTH_SHORT).show();
