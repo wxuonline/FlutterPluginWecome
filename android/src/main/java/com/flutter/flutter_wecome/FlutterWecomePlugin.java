@@ -109,7 +109,6 @@ public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, Ac
             if (api == null) {
                 result.success(false);
             } else {
-                Toast.makeText(context, "Check"+api.isWWAppInstalled(), Toast.LENGTH_SHORT).show();
                 result.success(api.isWWAppInstalled());
             }
         } else if (call.method.equals("getApiVersion")) {

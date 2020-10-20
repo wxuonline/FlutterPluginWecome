@@ -30,7 +30,7 @@ class FlutterWecome {
     var result = await _channel.invokeMethod(
         'isWecomeInstalled'
     );
-    return result == 'true' ? true : false;
+    return result;
   }
 
   /// Get Wecome sdk api version.
