@@ -174,7 +174,7 @@ class _MyAppState extends State<MyApp> {
             // ),
             ListTile(
               leading: Icon(Icons.person),
-              title: Text('Login via wecome'),
+              title: Text('Login with wecome'),
               onTap: () {
                 _login();
               },
@@ -186,7 +186,7 @@ class _MyAppState extends State<MyApp> {
                 _openWecome();
               },
             ),
-            Text('result: $_result')
+            // Text('result: $_result')
           ],
         ),
       ),
