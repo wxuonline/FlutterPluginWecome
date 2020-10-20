@@ -2,16 +2,8 @@ package com.flutter.flutter_wecome;
 
 import androidx.annotation.NonNull;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.widget.Toast;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.CompressFormat;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.tencent.wework.api.IWWAPI;
@@ -19,16 +11,8 @@ import com.tencent.wework.api.IWWAPIEventHandler;
 import com.tencent.wework.api.WWAPIFactory;
 import com.tencent.wework.api.model.BaseMessage;
 import com.tencent.wework.api.model.WWAuthMessage;
-import com.tencent.wework.api.model.WWMediaConversation;
-import com.tencent.wework.api.model.WWMediaFile;
-import com.tencent.wework.api.model.WWMediaImage;
-import com.tencent.wework.api.model.WWMediaLink;
-import com.tencent.wework.api.model.WWMediaMergedConvs;
-import com.tencent.wework.api.model.WWMediaText;
-import com.tencent.wework.api.model.WWMediaVideo;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -36,10 +20,6 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
-import io.flutter.plugin.common.EventChannel;
-import io.flutter.plugin.common.EventChannel.StreamHandler;
 
 /** FlutterWecomePlugin */
 public class FlutterWecomePlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
